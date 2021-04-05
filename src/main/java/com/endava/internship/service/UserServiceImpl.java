@@ -4,17 +4,23 @@ import com.endava.internship.domain.Privilege;
 import com.endava.internship.domain.User;
 import com.endava.internship.service.UserService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getFirstNamesReverseSorted(List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        List<String> newList = users.stream()
+                .sorted(Comparator.comparing(User::getFirstName).reversed())
+                .map(x -> x.getFirstName())
+                .collect(Collectors.toList());
+        return newList;
     }
 
     @Override
