@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 //                .distinct()
 //                .collect(Collectors.toList());
 
+
         throw new UnsupportedOperationException("Not implemented");
         //return listPrivilege;
     }
