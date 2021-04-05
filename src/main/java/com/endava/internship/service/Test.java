@@ -23,16 +23,21 @@ public class Test {
 
 
         System.out.println("Get start");
-        Map<Integer,List<User>> map = userService.groupByCountOfPrivileges(asList(user1, user2, user3));
-        System.out.println(map);
+
+//        Map<Integer,List<User>> map = userService.groupByCountOfPrivileges(asList(user1, user2, user3));
+//        System.out.println(map);
 
 //        final List<String> sortedFirstNames =
 //                    userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
 
+        System.out.println("getAllDistinctPrivileges");
+        List<Privilege> list = userService.getAllDistinctPrivileges(asList(user1, user2, user3));
+        System.out.println(list);
 
 //        System.out.println("getFirstNamesReverseSorted");
 //        List<String> list = userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
 //        System.out.println(list);
+
 //        System.out.println("shouldReturnFirstNamesSortedDesc");
 //        List<User> list1 = userService.sortByAgeDescAndNameAsc(asList(user1, user2, user3));
 //        System.out.println(list1);

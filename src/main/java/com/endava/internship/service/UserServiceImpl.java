@@ -36,14 +36,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Privilege> getAllDistinctPrivileges(final List<User> users) {
-//        List<Privilege> listPrivilege =  users.stream()
-//                .map(User::getPrivileges)
-//                .distinct()
-//                .collect(Collectors.toList());
+        List<Privilege> listPrivilege;  // =  users.get(1).getPrivileges();
 
+       listPrivilege =  users.stream()
+                .map(emp -> emp.getPrivileges())
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
 
-        throw new UnsupportedOperationException("Not implemented");
-        //return listPrivilege;
+        return listPrivilege;
     }
 
     @Override
@@ -63,8 +64,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.groupingBy(emp -> emp.getPrivileges().size()));
 
         return mapUsers;
-
-        //throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
