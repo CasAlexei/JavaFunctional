@@ -59,12 +59,12 @@ public class UserServiceImpl implements UserService {
     public Map<Integer, List<User>> groupByCountOfPrivileges(final List<User> users) {
         Map<Integer, List<User>> mapUsers;
 
-//        mapUsers = users.stream().collect(Collectors.toMap(
-//                                                    User::getAge,
-//                                                    User::getFirstName));
+        mapUsers = users.stream()
+                .collect(Collectors.groupingBy(emp -> emp.getPrivileges().size()));
 
-//        return mapUsers;
-        throw new UnsupportedOperationException("Not implemented");
+        return mapUsers;
+
+        //throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
@@ -76,6 +76,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
 
+        //users.stream().collect(Collectors.groupingBy());
+
+
+                //.forEach(emp ->System.out.println(emp.getLastName()));
+        return Optional.ofNullable("Ok");
         //throw new UnsupportedOperationException("Not implemented");
     }
 

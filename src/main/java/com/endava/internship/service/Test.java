@@ -18,13 +18,18 @@ public class Test {
         final List<Privilege> ALL_PRIVILEGES = asList(Privilege.values());
 
         final User user1 = new User(1L, "John", "Doe", 26, singletonList(Privilege.DELETE));
-        final User user2 = new User(2L, "Greg", "Smith", 30, asList(Privilege.UPDATE, Privilege.CREATE, Privilege.DELETE));
+        final User user2 = new User(2L, "Greg", "Smith", 13, asList(Privilege.UPDATE, Privilege.CREATE, Privilege.DELETE));
         final User user3 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
+
+
+        System.out.println("Get start");
+        Map<Integer,List<User>> map = userService.groupByCountOfPrivileges(asList(user1, user2, user3));
+        System.out.println(map);
 
 //        final List<String> sortedFirstNames =
 //                    userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
 
-        System.out.println("Get start");
+
 //        System.out.println("getFirstNamesReverseSorted");
 //        List<String> list = userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
 //        System.out.println(list);
@@ -41,9 +46,8 @@ public class Test {
         final User userWith1Privileges1 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
         final User userWith1Privileges2 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
 
-        final Map<Integer, List<User>> groupedMap =
-                userService.groupByCountOfPrivileges(asList(userWith2Privileges, userWith4Privileges, userWith1Privileges1, userWith1Privileges1));
+        userService.groupByCountOfPrivileges(asList(userWith2Privileges, userWith4Privileges, userWith1Privileges1, userWith1Privileges1));
 
-        System.out.println(groupedMap);
+        userService.getMostFrequentLastName(asList(user1, user2, user3));
         }
 }
