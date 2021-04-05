@@ -65,21 +65,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public double getAverageAgeForUsers(final List<User> users) {
 
-        return users.stream().collect(Collectors.averagingInt(user -> user.getAge()));
+        if(users.size() == 0)
+            return -1;
+        else
+            return users.stream().collect(Collectors.averagingInt(user -> user.getAge()));
     }
 
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
 
-        Map<String, Long> mapUsers;
-
                Optional opt =  users.stream()
                 .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey)
-                .findFirst();
+                       .filter(entry -> entry.getValue() >=2)
+                       .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                       .map(Map.Entry::getKey)
+                       .findFirst();
 
         //System.out.println(opt);
 
@@ -103,6 +105,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Long> getNumberOfLastNames(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        return users.stream()
+                .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()));
     }
 }
