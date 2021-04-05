@@ -30,9 +30,9 @@ public class Test {
 //        final List<String> sortedFirstNames =
 //                    userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
 
-        System.out.println("getAllDistinctPrivileges");
-        List<Privilege> list = userService.getAllDistinctPrivileges(asList(user1, user2, user3));
-        System.out.println(list);
+//        System.out.println("getAllDistinctPrivileges");
+//        List<Privilege> list = userService.getAllDistinctPrivileges(asList(user1, user2, user3));
+//        System.out.println(list);
 
 //        System.out.println("getFirstNamesReverseSorted");
 //        List<String> list = userService.getFirstNamesReverseSorted(asList(user1, user2, user3));
@@ -42,16 +42,6 @@ public class Test {
 //        List<User> list1 = userService.sortByAgeDescAndNameAsc(asList(user1, user2, user3));
 //        System.out.println(list1);
 
-        final int ONE_PRIVILEGE = 1;
-        final int TWO_PRIVILEGES = 2;
-        final int FOUR_PRIVILEGES = 4;
-
-        final User userWith2Privileges = new User(1L, "John", "Doe", 26, asList(Privilege.UPDATE, Privilege.CREATE));
-        final User userWith4Privileges = new User(2L, "Greg", "Smith", 30, ALL_PRIVILEGES);
-        final User userWith1Privileges1 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
-        final User userWith1Privileges2 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
-
-        userService.groupByCountOfPrivileges(asList(userWith2Privileges, userWith4Privileges, userWith1Privileges1, userWith1Privileges1));
 
         userService.getMostFrequentLastName(asList(user1, user2, user3));
         }

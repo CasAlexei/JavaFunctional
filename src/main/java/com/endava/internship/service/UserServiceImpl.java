@@ -36,9 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Privilege> getAllDistinctPrivileges(final List<User> users) {
-        List<Privilege> listPrivilege;  // =  users.get(1).getPrivileges();
-
-       listPrivilege =  users.stream()
+        List<Privilege> listPrivilege = users.stream()
                 .map(emp -> emp.getPrivileges())
                 .flatMap(List::stream)
                 .distinct()
@@ -58,9 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<Integer, List<User>> groupByCountOfPrivileges(final List<User> users) {
-        Map<Integer, List<User>> mapUsers;
-
-        mapUsers = users.stream()
+        Map<Integer, List<User>> mapUsers = users.stream()
                 .collect(Collectors.groupingBy(emp -> emp.getPrivileges().size()));
 
         return mapUsers;
@@ -75,12 +71,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
 
-        //users.stream().collect(Collectors.groupingBy());
+        Map<String, Long> mapUsers;
 
+               Optional opt =  users.stream()
+                .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .findFirst();
 
-                //.forEach(emp ->System.out.println(emp.getLastName()));
-        return Optional.ofNullable("Ok");
-        //throw new UnsupportedOperationException("Not implemented");
+        //System.out.println(opt);
+
+    return opt;
     }
 
     @Override
