@@ -167,8 +167,7 @@ public class UserServiceImplTest {
 
         final List<User> users = asList(user1, user2, user3);
 
-        final List<User> filteredUsers =
-                userService.filterBy(users);
+        final List<User> filteredUsers = userService.filterBy(users);
 
         assertThat(filteredUsers).isEqualTo(users);
     }

@@ -5,10 +5,7 @@ import com.endava.internship.domain.User;
 import com.endava.internship.service.UserService;
 
 import javax.jws.soap.SOAPBinding;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,8 +15,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getFirstNamesReverseSorted(List<User> users) {
         List<String> newList = users.stream()
-                .sorted(Comparator.comparing(User::getFirstName).reversed())
                 .map(name -> name.getFirstName())
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 
         return newList;
@@ -37,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Privilege> getAllDistinctPrivileges(final List<User> users) {
         List<Privilege> listPrivilege = users.stream()
-                .map(emp -> emp.getPrivileges())
+                .map(User::getPrivileges)
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
@@ -66,13 +63,13 @@ public class UserServiceImpl implements UserService {
         if(users.size() == 0)
             return -1;
         else
-            return users.stream().collect(Collectors.averagingInt(user -> user.getAge()));
+            return users.stream().collect(Collectors.averagingInt(User::getAge));
     }
 
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
 
-               Optional opt =  users.stream()
+        return users.stream()
                 .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -80,15 +77,14 @@ public class UserServiceImpl implements UserService {
                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                        .map(Map.Entry::getKey)
                        .findFirst();
-
-        //System.out.println(opt);
-
-    return opt;
     }
 
     @Override
     public List<User> filterBy(final List<User> users, final Predicate<User>... predicates) {
-        throw new UnsupportedOperationException("Not implemented");
+
+        return users.stream()
+                .filter(Arrays.stream(predicates).reduce(is -> true, Predicate::and))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -98,6 +94,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<Privilege, List<User>> groupByPrivileges(List<User> users) {
+//        return users.stream()
+//                .collect(Collectors.groupingBy(User::getPrivileges));
         throw new UnsupportedOperationException("Not implemented");
     }
 
