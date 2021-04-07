@@ -10,6 +10,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+
 public class UserServiceImpl implements UserService {
 
     @Override
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<Integer, List<User>> groupByCountOfPrivileges(final List<User> users) {
         return users.stream()
-                .collect(Collectors.groupingBy(emp -> emp.getPrivileges().size()));
+                .collect(groupingBy(emp -> emp.getPrivileges().size()));
     }
 
     @Override
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
         return users.stream()
-                .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()))
+                .collect(groupingBy(User::getLastName, Collectors.counting()))
                 .entrySet()
                 .stream()
                        .filter(entry -> entry.getValue() >=2)
@@ -85,15 +88,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<Privilege, List<User>> groupByPrivileges(List<User> users) {
-//        return users.stream()
-//                .collect(Collectors.groupingBy(User::getPrivileges));
-
-        throw new UnsupportedOperationException("Not implemented");
+        return users.stream()
+            .flatMap(user -> user.getPrivileges().stream().map(privilege ->
+                {
+                    Map<Privilege, User> map = new HashMap<>();
+                    map.put(privilege, user);
+                    return map.entrySet();
+                }
+            ))
+            .flatMap(Set::stream)
+            .collect(groupingBy(Map.Entry::getKey, mapping(Map.Entry::getValue, Collectors.toList())));
     }
 
     @Override
     public Map<String, Long> getNumberOfLastNames(final List<User> users) {
         return users.stream()
-                .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()));
+                .collect(groupingBy(User::getLastName, Collectors.counting()));
     }
 }
